@@ -1,3 +1,3 @@
-# react-mui-geolocator
+# next-then-image
 
-A Material UI button that uses HTML5 Geolocation API to allow a user to provide their location to web applications if they so desire.
+Documentation coming soon...

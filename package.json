@@ -9,17 +9,23 @@
   "workspaces": [
     "packages/*"
   ],
-  "main": "dist/index.js",
   "license": "MIT",
   "keywords": [
     "image",
     "react",
     "next"
   ],
+  "main": "packages/client/dist/index.js",
+  "files": [
+    "packages/client/dist/",
+    "packages/server/dist/",
+    "README.md"
+  ],
   "author": "Abe Hendricks<moemanchu@icloud.com>",
   "scripts": {
     "build:server": "yarn --cwd packages/server build",
     "build:client": "yarn --cwd packages/client build",
-    "build": "yarn build:client && yarn build:server"
+    "build": "yarn build:client && yarn build:server",
+    "prepublish": "npm run build"
   }
 }
