@@ -25,7 +25,17 @@
   "scripts": {
     "build:server": "yarn --cwd packages/server build",
     "build:client": "yarn --cwd packages/client build",
+    "build:demo": "yarn --cwd packages/demo build",
+    "dev:server": "yarn --cwd packages/server dev",
+    "dev:client": "yarn --cwd packages/client dev",
+    "dev:demo": "yarn --cwd packages/demo dev",
     "build": "yarn build:client && yarn build:server",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "watch:src": "nodemon --delay 1 --watch ./packages/client/dist/ --watch ./packages/server/dist/  --exec \"yarn --cwd packages/demo run cp-dist\"",
+    "dev": "concurrently -n server,client,demo,cp-dist 'yarn dev:server' 'yarn dev:client' 'yarn dev:demo' 'yarn watch:src'"
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0",
+    "nodemon": "^2.0.6"
   }
 }

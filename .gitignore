@@ -24,5 +24,6 @@ yarn-error.log*
 .vscode/
 
 packages/**/dist
+packages/demo/src/lib/
 .rpt2_cache/
 .vercel
