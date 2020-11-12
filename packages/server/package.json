@@ -5,7 +5,7 @@
     "type": "git",
     "url": "https://github.com/wheredoesyourmindgo/next-then-image"
   },
-  "version": "0.0.1",
+  "version": "0.0.3",
   "main": "dist/index.js",
   "license": "MIT",
   "source": "src/index.ts",
@@ -20,8 +20,6 @@
     "type-check": "tsc -p .",
     "install-peers": "install-peers -f",
     "build": "microbundle --no-compress --tsconfig tsconfig.json",
-    "postinstall": "npm run install-peers",
-    "postuninstall": "npm run install-peers",
     "dev": "yarn build watch",
     "clean": "rimraf {dist,.rts2*}"
   },
