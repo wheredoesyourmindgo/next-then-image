@@ -7,11 +7,13 @@ const fallback =
 type Props = {
   placeholder?: string
   transition?: boolean
+  blurDuration?: number
 } & React.ComponentProps<typeof Image>
 
 const ThenImage = ({
   placeholder = fallback,
   transition = true,
+  blurDuration = 800,
   ...rest
 }: Props): JSX.Element => {
   const [loaded, setLoaded] = useState(false)
@@ -47,7 +49,9 @@ const ThenImage = ({
           /* Blur the image and scale to avoid transparent corners */
           filter: 'blur(2rem)',
           transform: 'scale(1.2)',
-          transition: transition ? 'opacity 800ms, filter 1200ms' : 'none',
+          transition: transition
+            ? `opacity ${blurDuration}ms, filter 1200ms`
+            : 'none',
           opacity: !loaded ? 1 : 0
         }}
       />

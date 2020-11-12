@@ -59,6 +59,7 @@ const IndexPage = ({lqips}: Props) => {
           width={width}
           height={height}
           placeholder={lqips.img1}
+          blurDuration={900}
         />
         <Spacing />
         <ThenImage
