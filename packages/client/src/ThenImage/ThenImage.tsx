@@ -29,6 +29,7 @@ const ThenImage = ({
         position: 'relative',
         overflow: 'hidden',
         display: 'block',
+        height: 'inherit',
         width: '100%',
         transform: 'translate3d(0, 0, 0)'
       }}
