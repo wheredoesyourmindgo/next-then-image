@@ -1,6 +1,6 @@
 import sharp from 'sharp'
 
-const getLqip = async (url: string): Promise<string> => {
+const getLqip = async (url: string | Readonly<string>): Promise<string> => {
   try {
     const imageRes = await fetch(`${url}`)
     const blob = await imageRes.blob()
@@ -14,7 +14,7 @@ const getLqip = async (url: string): Promise<string> => {
   }
 }
 
-const getLqips = async (urls: Array<string>) => {
+const getLqips = async (urls: Array<string> | Readonly<Array<string>>) => {
   const lqips = await sequenceArray<string, string | null>(
     urls,
     async (url) => {
@@ -44,7 +44,7 @@ const getLqips = async (urls: Array<string>) => {
 }
 
 async function sequenceArray<T, U = T>(
-  array: T[],
+  array: T[] | Readonly<T[]>,
   fn: (args: T) => Promise<U>
 ) {
   const results = []
