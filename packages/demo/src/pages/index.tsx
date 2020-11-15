@@ -1,7 +1,9 @@
 import {GetStaticProps} from 'next'
 import React, {useCallback} from 'react'
-import {ThenImage} from '../lib/client'
-import {getLqips} from '../lib/server'
+// import ThenImage from '../lib/client'
+// import {getLqips} from '../lib/server'
+import ThenImage from 'next-then-image'
+import {getLqips} from 'next-then-image-util'
 
 type Props = {
   lqips: {[key: string]: string}

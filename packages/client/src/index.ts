@@ -1,3 +1,2 @@
 import {ThenImage} from './ThenImage'
-
-export {ThenImage}
+export default ThenImage
