@@ -71,7 +71,7 @@ async function transform(ab: ArrayBuffer, mimeType: string, width = 30) {
     sharp(buffer)
       .normalise()
       .modulate({
-        saturation: 1.2,
+        saturation: 1.1,
         brightness: 1
       })
       .removeAlpha()
