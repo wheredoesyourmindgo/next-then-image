@@ -1,12 +1,15 @@
 import sharp from 'sharp'
 
-const getLqip = async (url: string | Readonly<string>): Promise<string> => {
+const getLqip = async (
+  url: string | Readonly<string>,
+  width?: number
+): Promise<string> => {
   try {
     const imageRes = await fetch(`${url}`)
     const blob = await imageRes.blob()
     const mimeType = blob.type
     const arrayBuffer = await blob.arrayBuffer()
-    const lqipSrc = await transform(arrayBuffer, mimeType)
+    const lqipSrc = await transform(arrayBuffer, mimeType, width)
     return lqipSrc
   } catch (e) {
     console.log('Failed to fetch base64 image', url)
@@ -14,12 +17,15 @@ const getLqip = async (url: string | Readonly<string>): Promise<string> => {
   }
 }
 
-const getLqips = async (urls: Array<string> | Readonly<Array<string>>) => {
+const getLqips = async (
+  urls: Array<string> | Readonly<Array<string>>,
+  width?: number
+) => {
   const lqips = await sequenceArray<string, string | null>(
     urls,
     async (url) => {
       try {
-        const b64 = await getLqip(url)
+        const b64 = await getLqip(url, width)
         // return {
         //   lqip: b64,
         //   src: url,
@@ -59,7 +65,7 @@ function toBase64(buffer: Buffer, mimeType: string) {
   return `data:${mimeType};base64,${buffer.toString('base64')}`
 }
 
-async function transform(ab: ArrayBuffer, mimeType: string) {
+async function transform(ab: ArrayBuffer, mimeType: string, width = 30) {
   return new Promise<string>((resolve, reject) => {
     const buffer = Buffer.from(ab)
     sharp(buffer)
@@ -69,7 +75,7 @@ async function transform(ab: ArrayBuffer, mimeType: string) {
         brightness: 1
       })
       .removeAlpha()
-      .resize(30, 30, {fit: 'inside'})
+      .resize(width, null, {fit: 'inside'})
       .jpeg()
       .toBuffer((err, buffer) => {
         if (err) return reject(err)
