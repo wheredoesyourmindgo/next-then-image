@@ -1,4 +1,4 @@
-import sharp from 'sharp'
+import Jimp from 'jimp'
 export interface Lqip {
   b64: string | null
   ratio: number | null
@@ -30,26 +30,12 @@ const getLqips = async (
   const lqips = await sequenceArray<string, Lqip>(urls, async (url) => {
     try {
       const obj = await getLqip(url, width)
-      // return {
-      //   lqip: b64,
-      //   src: url,
-      // };
       return obj
     } catch (e) {
       return {url, b64: null, ratio: null}
     }
   })
   return lqips
-
-  // const reduced = lqips.reduce((prev, curr) => {
-  //   const {src, lqip} = curr;
-  //   return {
-  //     ...prev,
-  //     [src]: lqip,
-  //   };
-  // });
-
-  // return reduced;
 }
 
 async function sequenceArray<T, U = T>(
@@ -64,45 +50,23 @@ async function sequenceArray<T, U = T>(
   return results
 }
 
-function toBase64(buffer: Buffer, mimeType: string) {
-  return `data:${mimeType};base64,${buffer.toString('base64')}`
-}
-
 async function transform(
   ab: ArrayBuffer,
   mimeType: string,
-  lqipWidth = 20,
+  lqipWidth = 25,
   url: string
 ) {
   const buffer = Buffer.from(ab)
-  const metaPromise = new Promise<{
-    ratio: Lqip['ratio']
-    width?: Lqip['width']
-    height?: Lqip['height']
-  }>((resolve) => {
-    sharp(buffer).metadata((err, metadata) => {
-      const {width, height} = metadata
-      if (err || !width || !height) return {ratio: null, width, height}
-      resolve({ratio: (height / width) * 100, width, height})
-    })
-  })
-  const lqipPromise = new Promise<string>((resolve, reject) => {
-    sharp(buffer)
-      .normalise()
-      .modulate({
-        saturation: 1.1,
-        brightness: 1
-      })
-      .removeAlpha()
-      .resize(lqipWidth, null, {fit: 'inside'})
-      .jpeg()
-      .toBuffer((err, buffer) => {
-        if (err) return reject(err)
-        resolve(toBase64(buffer, mimeType))
-      })
-  })
-  const {width, height, ratio} = await metaPromise
-  const b64 = await lqipPromise
+  const j = await Jimp.read(buffer)
+  const width = j.getWidth()
+  const height = j.getHeight()
+  const ratio = !width || !height ? null : (height / width) * 100
+
+  const b64 = await j
+    .normalize()
+    // .color([{apply: 'saturate' as any, params: [-50]}])
+    .resize(lqipWidth, Jimp.AUTO)
+    .getBase64Async(mimeType)
   return {url, ratio, width, height, b64}
 }
 
