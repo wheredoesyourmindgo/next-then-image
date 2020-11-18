@@ -1,12 +1,12 @@
 import {GetStaticProps} from 'next'
 import React, {useCallback} from 'react'
-// import ThenImage from '../lib/client'
-// import {getLqips} from '../lib/server'
-import ThenImage from 'next-then-image'
-import {getLqips} from 'next-then-image-util'
+import ThenImage from '../lib/client'
+import {getLqips, Lqip} from '../lib/server'
+// import ThenImage from 'next-then-image'
+// import {getLqips} from 'next-then-image-util'
 
 type Props = {
-  lqips: {[key: string]: string}
+  lqips: Lqip[]
 }
 
 const width = 1600
@@ -49,6 +49,24 @@ const [
 ] = images
 
 const IndexPage = ({lqips}: Props) => {
+  const [
+    lqip1,
+    lqip2,
+    lqip3,
+    lqip4,
+    lqip5,
+    lqip6,
+    lqip7,
+    lqip8,
+    lqip9,
+    lqip10,
+    lqip11,
+    lqip12,
+    lqip13,
+    lqip14,
+    lqip15
+  ] = lqips
+
   const Spacing = useCallback(
     () => <div style={{marginTop: 64, marginBottom: 64}} />,
     []
@@ -60,79 +78,29 @@ const IndexPage = ({lqips}: Props) => {
           src={img1}
           width={width}
           height={height}
-          placeholder={lqips.img1}
+          b64={lqip1.b64}
           blurDuration={900}
         />
         <Spacing />
-        <ThenImage
-          src={img2}
-          width={width}
-          height={height}
-          placeholder={lqips.img2}
-        />
+        <ThenImage src={img2} width={width} height={height} b64={lqip2.b64} />
         <Spacing />
-        <ThenImage
-          src={img3}
-          width={width}
-          height={height}
-          placeholder={lqips.img3}
-        />
+        <ThenImage src={img3} width={width} height={height} b64={lqip3.b64} />
         <Spacing />
-        <ThenImage
-          src={img4}
-          width={width}
-          height={height}
-          placeholder={lqips.img4}
-        />
+        <ThenImage src={img4} width={width} height={height} b64={lqip4.b64} />
         <Spacing />
-        <ThenImage
-          src={img5}
-          width={width}
-          height={height}
-          placeholder={lqips.img5}
-        />
+        <ThenImage src={img5} width={width} height={height} b64={lqip5.b64} />
         <Spacing />
-        <ThenImage
-          src={img6}
-          width={width}
-          height={height}
-          placeholder={lqips.img6}
-        />
+        <ThenImage src={img6} width={width} height={height} b64={lqip6.b64} />
         <Spacing />
-        <ThenImage
-          src={img7}
-          width={width}
-          height={height}
-          placeholder={lqips.img7}
-        />
+        <ThenImage src={img7} width={width} height={height} b64={lqip7.b64} />
         <Spacing />
-        <ThenImage
-          src={img8}
-          width={width}
-          height={height}
-          placeholder={lqips.img8}
-        />
+        <ThenImage src={img8} width={width} height={height} b64={lqip8.b64} />
         <Spacing />
-        <ThenImage
-          src={img9}
-          width={width}
-          height={height}
-          placeholder={lqips.img9}
-        />
+        <ThenImage src={img9} width={width} height={height} b64={lqip9.b64} />
         <Spacing />
-        <ThenImage
-          src={img10}
-          width={width}
-          height={height}
-          placeholder={lqips.img10}
-        />
+        <ThenImage src={img10} width={width} height={height} b64={lqip10.b64} />
         <Spacing />
-        <ThenImage
-          src={img11}
-          width={width}
-          height={height}
-          placeholder={lqips.img11}
-        />
+        <ThenImage src={img11} width={width} height={height} b64={lqip11.b64} />
         <Spacing />
         <h2>No Transition</h2>
         <Spacing />
@@ -141,7 +109,7 @@ const IndexPage = ({lqips}: Props) => {
           width={width}
           height={height}
           transition={false}
-          placeholder={lqips.img12}
+          b64={lqip12.b64}
         />
         <Spacing />
         <ThenImage
@@ -149,7 +117,7 @@ const IndexPage = ({lqips}: Props) => {
           width={width}
           height={height}
           transition={false}
-          placeholder={lqips.img13}
+          b64={lqip13.b64}
         />
         <Spacing />
         <ThenImage
@@ -157,7 +125,7 @@ const IndexPage = ({lqips}: Props) => {
           width={width}
           height={height}
           transition={false}
-          placeholder={lqips.img14}
+          b64={lqip14.b64}
         />
         <Spacing />
         <ThenImage
@@ -165,7 +133,7 @@ const IndexPage = ({lqips}: Props) => {
           width={width}
           height={height}
           transition={false}
-          placeholder={lqips.img15}
+          b64={lqip15.b64}
         />
       </div>
     </main>
@@ -174,47 +142,15 @@ const IndexPage = ({lqips}: Props) => {
 
 export const getStaticProps: GetStaticProps = async () => {
   try {
-    const [
-      img1,
-      img2,
-      img3,
-      img4,
-      img5,
-      img6,
-      img7,
-      img8,
-      img9,
-      img10,
-      img11,
-      img12,
-      img13,
-      img14,
-      img15
-    ] = await getLqips(images)
+    const lqips = await getLqips(images)
     return {
       props: {
-        lqips: {
-          img1,
-          img2,
-          img3,
-          img4,
-          img5,
-          img6,
-          img7,
-          img8,
-          img9,
-          img10,
-          img11,
-          img12,
-          img13,
-          img14,
-          img15
-        }
+        lqips
       },
       revalidate: 5
     }
   } catch (e) {
-    return {props: {lqips: {}}}
+    return {props: {lqips: []}}
   }
 }
 

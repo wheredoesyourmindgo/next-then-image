@@ -1,2 +1,2 @@
-import {getLqip, getLqips} from './util'
-export {getLqip, getLqips}
+import {getLqip, getLqips, Lqip} from './util'
+export {getLqip, getLqips, Lqip}
